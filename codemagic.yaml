@@ -1,0 +1,44 @@
+# Сборки в Codemagic (ARCHITECTURE §19, D-003, D-028).
+# Сейчас — только проба этапа 7: приложение без подписи (.ipa), которое Sideloadly
+# переподписывает бесплатным Apple ID и ставит на iPhone.
+# Запуск только вручную: секции triggering нет, поэтому push не тратит бесплатные минуты.
+
+workflows:
+  ios-probe:
+    name: iOS — проба этапа 7 (без подписи)
+    instance_type: mac_mini_m2
+    max_build_duration: 45
+    environment:
+      flutter: 3.47.7
+      xcode: latest
+      cocoapods: default
+    cache:
+      cache_paths:
+        - $HOME/.pub-cache
+    scripts:
+      - name: Версии инструментов
+        script: |
+          flutter --version
+          xcodebuild -version
+      - name: Зависимости (корень workspace)
+        script: |
+          cd probes/p1_workspace
+          flutter pub get
+      - name: Тесты пакета core
+        script: |
+          cd probes/p1_workspace/packages/core
+          dart test
+      - name: Сборка iOS без подписи
+        script: |
+          cd probes/p1_workspace/app
+          flutter build ios --release --no-codesign
+      - name: Упаковка .ipa для Sideloadly
+        script: |
+          cd probes/p1_workspace/app
+          rm -rf Payload ua_probe_unsigned.ipa
+          mkdir Payload
+          cp -R build/ios/iphoneos/Runner.app Payload/
+          zip -qry ua_probe_unsigned.ipa Payload
+          ls -lh ua_probe_unsigned.ipa
+    artifacts:
+      - probes/p1_workspace/app/ua_probe_unsigned.ipa
