@@ -1,0 +1,26 @@
+name: probe_app
+description: "Проба P1/P2 на устройстве: workspace + шифрованная SQLite."
+publish_to: 'none'
+version: 0.1.0+1
+resolution: workspace
+
+environment:
+  sdk: ^3.13.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+    path: ../packages/core
+  sqlite3: ^3.0.0
+  path_provider: ^2.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

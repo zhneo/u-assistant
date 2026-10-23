@@ -1,0 +1,16 @@
+name: probe_sqlite3mc
+description: >-
+  Проба P2/P3 (этап 7): шифрование SQLite3MultipleCiphers через package:sqlite3,
+  FTS5 с кириллицей, VACUUM INTO и перешифровка снимка. Временный эксперимент.
+publish_to: none
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  sqlite3: ^3.0.0
+
+hooks:
+  user_defines:
+    sqlite3:
+      source: sqlite3mc

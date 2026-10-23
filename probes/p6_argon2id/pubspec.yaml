@@ -1,0 +1,11 @@
+name: probe_argon2id
+description: >-
+  Проба P6 (этап 7): время Argon2id, PBKDF2 и AES-256-GCM в чистом Dart (package:cryptography).
+  Базовый замер на Windows; на телефоне замер повторяется в приложении. Временный эксперимент.
+publish_to: none
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  cryptography: ^2.9.0

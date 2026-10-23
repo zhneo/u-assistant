@@ -1,0 +1,15 @@
+name: p1_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.13.0
+
+workspace:
+  - packages/core
+  - app
+
+# Хуки нативных сборок читаются из корня workspace: SQLite собирается как SQLite3MultipleCiphers.
+hooks:
+  user_defines:
+    sqlite3:
+      source: sqlite3mc
