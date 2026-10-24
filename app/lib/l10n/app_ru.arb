@@ -1,0 +1,35 @@
+{
+  "@@locale": "ru",
+  "appTitle": "U-Assistant",
+  "tabToday": "Сегодня",
+  "tabTasks": "Дела",
+  "tabAdd": "Добавить",
+  "tabMoney": "Деньги",
+  "tabNotes": "Заметки",
+  "actionSearch": "Поиск",
+  "actionSettings": "Настройки",
+  "addSheetTitle": "Добавить",
+  "addExpense": "Расход",
+  "addIncome": "Доход",
+  "addTransfer": "Перевод",
+  "addTask": "Задача",
+  "addNote": "Заметка",
+  "addVoice": "Голосом",
+  "close": "Закрыть",
+  "comingInMilestone": "Появится в вехе {milestone}",
+  "@comingInMilestone": {
+    "placeholders": {
+      "milestone": { "type": "String" }
+    }
+  },
+  "todayEmptyTitle": "На сегодня ничего не запланировано",
+  "todayEmptyMessage": "Задачи, привычки и платежи появятся здесь.",
+  "tasksEmptyTitle": "Здесь будут задачи",
+  "tasksEmptyMessage": "Задачи без даты и проекта попадают во «Входящие».",
+  "moneyEmptyTitle": "Создайте первый счёт",
+  "moneyEmptyMessage": "Например, «Наличные». После этого можно записывать расходы.",
+  "notesEmptyTitle": "Здесь будут заметки",
+  "notesEmptyMessage": "Например, конспект встречи или список покупок.",
+  "startupErrorTitle": "Не удалось открыть данные",
+  "startupErrorMessage": "Ваши резервные копии целы. Восстановление появится в вехе M3."
+}

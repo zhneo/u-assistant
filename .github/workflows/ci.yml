@@ -1,0 +1,84 @@
+# Обязательные проверки на каждый push и pull request (TESTING_STRATEGY §8, D-028).
+# Слияние в main — только при зелёных проверках.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Форматирование, правила, анализ, тесты
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.47.7
+          channel: stable
+          cache: true
+
+      - name: Зависимости
+        run: flutter pub get
+
+      - name: Форматирование
+        run: dart format --output=none --set-exit-if-changed packages/core/lib packages/core/test app/lib app/test tool
+
+      - name: Архитектурные правила
+        run: dart run tool/check_architecture.dart
+
+      - name: Сгенерированный код актуален
+        working-directory: app
+        run: |
+          dart run build_runner build
+          flutter gen-l10n
+          git diff --exit-code -- lib
+
+      - name: Анализ ядра
+        working-directory: packages/core
+        run: dart analyze --fatal-infos
+
+      - name: Анализ приложения
+        working-directory: app
+        run: flutter analyze --fatal-infos
+
+      - name: Тесты ядра
+        working-directory: packages/core
+        run: dart test
+
+      - name: Тесты приложения
+        working-directory: app
+        run: flutter test
+
+  android:
+    name: Сборка Android (debug)
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.47.7
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Сборка APK
+        working-directory: app
+        run: flutter build apk --debug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: u-assistant-debug-apk
+          path: app/build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 7

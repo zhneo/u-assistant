@@ -198,3 +198,18 @@
 | D-045 | Предварительные параметры Argon2id для паролей копий: 32 МиБ, 3 итерации, 1 поток (уточнить на устройстве). PBKDF2 не используется. `cryptography_flutter` обязателен для нативного AES-GCM | Проба P6 |
 | D-046 | Основная копия репозитория и документов — `C:\dev\u-assistant` (вне OneDrive, ASCII-путь); копия в OneDrive больше не обновляется | Решение владельца на этапе 7 |
 | D-047 | Пробы P1 и P2 пройдены на Android 14 (эмулятор): workspace `core` + `app` и шифрованная SQLite с FTS5 работают. Release-сборка базового стека без разрешения `INTERNET` | Пробы P1, P2, I1 |
+
+---
+
+## Этап 7 — каркас приложения (24.10.2026)
+
+| ID | Решение | Основание |
+|---|---|---|
+| D-048 | Репозиторий — Dart workspace (корневой `pubspec.yaml`: `packages/core`, `app`); настройка `hooks.user_defines.sqlite3.source: sqlite3mc` хранится в корне workspace | Проба P1, D-044 |
+| D-049 | Новые токены `accentFill` / `onAccentFill` (#2563D9 / #FFFFFF в обеих темах) для заливки основной кнопки и «Добавить»: белый на тёмном `accent` #4A8BF5 даёт только 3,3:1. Неактивная вкладка — `textSecondary` (было #8E8E93, 3,1:1) | Тест контраста, DESIGN_SYSTEM §2 |
+| D-050 | Нижняя панель: масштаб текста ограничен 1,2×, подпись в одну строку с многоточием, минимальная высота ячейки 50. Остальной интерфейс масштабируется без ограничения (проверено при 200%) | Тест `app_shell_test`, NFR-A11Y |
+| D-051 | Локализации Material берутся из `material_ui` (`GlobalMaterialLocalizations.delegates`), а не из `flutter_localizations`: компоненты `material_ui` ищут свои делегаты. `MaterialUiCompatibilityBridge` не используется (устарел) | Ошибка запуска «delegate for ru not found» |
+| D-052 | Android: `allowBackup=false`, `fullBackupContent=false` — база и ключ не попадают в облачный бэкап Android (ключ не расшифруется на другом устройстве; перенос — только файлом `.uabk`) | DATA_SECURITY §3, D-032 |
+| D-053 | CI — GitHub Actions (`.github/workflows/ci.yml`): форматирование, архитектурные правила (`tool/check_architecture.dart`: ядро без Flutter, экраны без `data/`/`platform/`, фичи изолированы, разрешения Android из белого списка), актуальность сгенерированного кода, анализ с `--fatal-infos`, тесты ядра и приложения, debug-APK. iOS — вручную в Codemagic | TESTING_STRATEGY §8 |
+| D-054 | Снимок схемы БД хранится в `app/drift_schemas/drift_schema_v<N>.json`; каждое изменение схемы — новый снимок и тест миграции | DATABASE §миграции |
+| D-055 | Варианты сборки (flavors dev/prod) отложены до M3: пока одно приложение `kz.uassistant.u_assistant`. Причина — нет данных, которые надо разделять, а настройка flavors на iOS без Mac сложна | Решение этапа 7 |

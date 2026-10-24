@@ -1,0 +1,17 @@
+name: u_assistant_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.13.0
+
+# Dart workspace (ARCHITECTURE §1.2, D-021): общий lock-файл для ядра и приложения.
+workspace:
+  - packages/core
+  - app
+
+# Хуки нативных сборок читаются из корня workspace: SQLite собирается
+# как SQLite3MultipleCiphers (шифрование базы, D-044).
+hooks:
+  user_defines:
+    sqlite3:
+      source: sqlite3mc

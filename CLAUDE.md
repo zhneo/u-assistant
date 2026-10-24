@@ -24,7 +24,7 @@
 1. **Деньги:** только `Money` (целые минимальные единицы + валюта ISO 4217). `double` для денег запрещён везде. Курсы — `Decimal`.
 2. **Слои:** `packages/core` — чистый Dart, без Flutter. Экраны не обращаются к базе и платформе напрямую — только через сценарии и репозитории (ARCHITECTURE §1.3).
 3. **Время:** только через `Clock`, не `DateTime.now()`.
-4. **Ошибки:** ожидаемые — `Result<T, AppFailure>`; многошаговые изменения — в одной транзакции (`UnitOfWork`).
+4. **Ошибки:** ожидаемые — `Result<T>` с `AppFailure` (`Ok` / `Err`); многошаговые изменения — в одной транзакции (`UnitOfWork`).
 5. **Логи:** никаких текстов, сумм, названий, распознанной речи — только типы событий и ID.
 6. **Сеть:** приложение не делает сетевых запросов и не добавляет зависимости с аналитикой или телеметрией.
 7. **Дизайн:** без шаблонных приёмов из DESIGN_SYSTEM §15 (карточки с тенью на всё, пастельные плашки, «·» в подписях, CAPS, эмодзи, градиенты).
@@ -40,15 +40,22 @@
 - Обновлять документацию, если поведение отличается от описанного.
 
 ## Команды
-> Заполняются на этапе 7 по мере появления кода.
+Все проверки ниже выполняются в CI (`.github/workflows/ci.yml`); перед коммитом запускать их локально.
 
 | Действие | Команда |
 |---|---|
 | Зависимости | `flutter pub get` (из корня workspace) |
-| Анализ | `flutter analyze` |
+| Форматирование | `dart format packages/core/lib packages/core/test app/lib app/test tool` |
+| Архитектурные правила | `dart run tool/check_architecture.dart` (из корня) |
+| Анализ | `dart analyze --fatal-infos` в `packages/core`; `flutter analyze --fatal-infos` в `app` |
 | Тесты ядра | `dart test` в `packages/core` |
 | Тесты приложения | `flutter test` в `app` |
-| Генерация drift | `dart run build_runner build` в `app` |
+| Генерация drift и строк | `dart run build_runner build` и `flutter gen-l10n` в `app` |
+| Снимок схемы БД | `dart run drift_dev schema dump lib/data/database/app_database.dart drift_schemas/` в `app` |
+| Сборка Android | `flutter build apk --debug` в `app` |
+| Сборка iOS | вручную в Codemagic, workflow `ios-probe` (`codemagic.yaml`) |
+
+Строки интерфейса — только в `app/lib/l10n/app_ru.arb`. Цвета и шрифты — только через токены `design_system/tokens`.
 
 ## Definition of Done
 См. `docs/TESTING_STRATEGY.md` §10: требования выполнены, тесты написаны **и запущены**, CI зелёный, обе темы и крупный шрифт проверены, документация обновлена, в отчёте — файлы, команды, результаты.
