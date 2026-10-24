@@ -1,5 +1,4 @@
 import 'package:core/core.dart';
-import 'package:decimal/decimal.dart';
 import 'package:test/test.dart';
 
 Decimal d(String s) => Decimal.parse(s);

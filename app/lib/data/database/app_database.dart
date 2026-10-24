@@ -8,7 +8,7 @@ import 'tables.dart';
 part 'app_database.g.dart';
 
 /// Локальная база (ARCHITECTURE §5, DATABASE.md). Файл зашифрован SQLite3MultipleCiphers.
-@DriftDatabase(tables: [AppSettings])
+@DriftDatabase(tables: [AppSettings], include: {'finance.drift'})
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.executor);
 

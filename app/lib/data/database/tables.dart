@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 
 /// `app_setting` (DATABASE §4.1): настройки «ключ — значение» в JSON.
-/// Остальные таблицы схемы v1 добавляются в вехах по DATABASE.md (M1 — финансы).
+/// Таблицы модуля «Деньги» — в `finance.drift` (D-058).
 @DataClassName('AppSettingRow')
 class AppSettings extends Table {
   @override

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui' show PlatformDispatcher;
 
+import 'package:core/core.dart' show SystemClock;
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -12,6 +13,8 @@ import 'app.dart';
 import 'data/database/app_database.dart';
 import 'data/database/database_key.dart';
 import 'data/database/database_provider.dart';
+import 'data/providers.dart';
+import 'data/settings/drift_settings_repository.dart';
 import 'platform/secure_key_store.dart';
 import 'services/logging/app_logging.dart';
 
@@ -38,11 +41,15 @@ Future<void> bootstrap() async {
   await initializeDateFormatting('ru');
 
   AppDatabase? db;
+  DriftSettingsRepository? settings;
   try {
     final key = await obtainDatabaseKey(FlutterSecureKeyStore());
     db = openAppDatabase(File('${support.path}/u_assistant.db'), key);
     await db.customSelect('SELECT 1').get();
     _log.info('database opened, schema v${db.schemaVersion}');
+    // Базовая валюта нужна синхронно при чтении операций — загружаем до UI.
+    settings = DriftSettingsRepository(db, const SystemClock());
+    await settings.load();
   } catch (e, s) {
     _log.severe('database open failed', e.runtimeType, s);
     db = null;
@@ -50,7 +57,10 @@ Future<void> bootstrap() async {
 
   runApp(
     ProviderScope(
-      overrides: [if (db != null) databaseProvider.overrideWithValue(db)],
+      overrides: [
+        if (db != null) databaseProvider.overrideWithValue(db),
+        if (settings != null) driftSettingsProvider.overrideWithValue(settings),
+      ],
       child: UAssistantApp(startupFailed: db == null),
     ),
   );
