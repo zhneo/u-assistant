@@ -6,8 +6,20 @@ import 'design_system/components/empty_state.dart';
 import 'design_system/theme.dart';
 import 'l10n/app_localizations.dart';
 import 'routing/app_router.dart';
+import 'services/onboarding.dart';
 
-final routerProvider = Provider<GoRouter>((ref) => buildRouter());
+/// Маршрутизатор создаётся один раз; охранник читает актуальное значение онбординга,
+/// а [ValueNotifier] заставляет его перепроверить адрес, когда значение меняется.
+final routerProvider = Provider<GoRouter>((ref) {
+  final refresh = ValueNotifier<bool>(
+    ref.read(onboardingDoneProvider).value ?? false,
+  );
+  ref.listen(onboardingDoneProvider, (_, next) {
+    if (next.hasValue) refresh.value = next.value!;
+  });
+  ref.onDispose(refresh.dispose);
+  return buildRouter(onboardingDone: () => refresh.value, refresh: refresh);
+});
 
 /// Делегаты локализации. Переводы встроенных компонентов берутся из material_ui:
 /// сгенерированный список `AppLocalizations.localizationsDelegates` ссылается на
@@ -32,6 +44,15 @@ class UAssistantApp extends ConsumerWidget {
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: _delegates,
         home: const _StartupErrorScreen(),
+      );
+    }
+    // Пока не известно, пройден ли онбординг, показываем пустой фон, а не мигающий экран.
+    final onboarding = ref.watch(onboardingDoneProvider);
+    if (!onboarding.hasValue) {
+      return MaterialApp(
+        theme: AppTheme.light(),
+        darkTheme: AppTheme.dark(),
+        home: const Scaffold(body: SizedBox.shrink()),
       );
     }
     return MaterialApp.router(

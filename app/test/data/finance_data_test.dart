@@ -8,7 +8,8 @@ import 'package:u_assistant/data/providers.dart';
 import 'package:u_assistant/data/settings/drift_settings_repository.dart';
 import 'package:u_assistant/features/money/application/accounts.dart';
 import 'package:u_assistant/features/money/application/exchange_rates.dart';
-import 'package:u_assistant/features/money/application/finance_setup.dart';
+import 'package:u_assistant/services/finance_seed.dart';
+import 'package:u_assistant/services/onboarding.dart';
 import 'package:u_assistant/features/money/application/transactions.dart';
 
 /// Слой данных и сценарии «Денег» на настоящей SQLite в памяти (TESTING_STRATEGY §3).
@@ -25,7 +26,12 @@ class _Env {
   );
   late final uow = DriftUnitOfWork(db);
   late final ensureCategories = EnsureDefaultCategories(categories);
-  late final setUp = SetUpFinance(uow, settings, accounts, ensureCategories);
+  late final onboarding = OnboardingFlow(
+    uow,
+    settings,
+    accounts,
+    ensureCategories,
+  );
   late final saveAccount = SaveAccount(uow, accounts);
   late final adjust = AdjustBalance(uow, accounts, transactions, clock);
   late final record = RecordIncomeExpense(
@@ -58,11 +64,13 @@ class _Env {
   LocalDate get today => LocalDate.fromDateTime(clock.now());
 
   /// Онбординг с базовой KZT и счётом «Карта».
-  Future<Account> start({int opening = 0}) async => (await setUp(
-    baseCurrency: Currency.kzt,
-    accountName: 'Карта',
-    openingBalance: Money(opening, Currency.kzt),
-  )).value;
+  Future<Account> start({int opening = 0}) async {
+    await onboarding.chooseCurrency(Currency.kzt);
+    return (await onboarding.createCashAccount(
+      'Карта',
+      Money(opening, Currency.kzt),
+    )).value;
+  }
 
   Future<Account> addAccount(
     String name,
@@ -106,6 +114,18 @@ void main() {
       expect(await env.settings.lastAccountId(), card.id);
       expect((await env.categories.all()).length, defaultCategoryCount());
       expect(await env.balance(card), Money(1500000, Currency.kzt));
+    });
+
+    test('шаги онбординга запоминаются, «Начать» завершает (SCR-02)', () async {
+      expect(await env.onboarding.currentStep(), OnboardingStep.currency);
+      expect(await env.settings.watchOnboardingDone().first, isFalse);
+      await env.onboarding.chooseCurrency(Currency.kzt);
+      expect(await env.onboarding.currentStep(), OnboardingStep.cash);
+      await env.onboarding.skipCashAccount();
+      expect(await env.onboarding.currentStep(), OnboardingStep.privacy);
+      expect(await env.accounts.all(), isEmpty);
+      await env.onboarding.complete();
+      expect(await env.settings.watchOnboardingDone().first, isTrue);
     });
 
     test('повторный набор категорий ничего не дублирует', () async {

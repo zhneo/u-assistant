@@ -48,6 +48,14 @@ void main() {
         expect(contrast(c.accentFill, c.bg), greaterThanOrEqualTo(3.0));
       });
 
+      test('текст сообщения «Отменить» и цифры клавиатуры ≥ 4,5:1 (D-065)', () {
+        expect(
+          contrast(c.onToast, c.toastBackground),
+          greaterThanOrEqualTo(4.5),
+        );
+        expect(contrast(c.textPrimary, c.keypadKey), greaterThanOrEqualTo(4.5));
+      });
+
       test('в палитре 6 цветов категорий + «Другое»', () {
         expect(c.category, hasLength(7));
       });

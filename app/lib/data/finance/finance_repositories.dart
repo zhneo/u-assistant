@@ -47,6 +47,14 @@ final class DriftAccountRepository implements AccountRepository {
       );
 
   @override
+  Stream<List<Account>> watchAll() {
+    final q = _db.select(_db.account)
+      ..where((a) => a.deletedAt.isNull())
+      ..orderBy([(a) => OrderingTerm(expression: a.sortOrder)]);
+    return q.watch().map((rows) => rows.map(_account).toList());
+  }
+
+  @override
   Future<List<Account>> all() async {
     final q = _db.select(_db.account)
       ..where((a) => a.deletedAt.isNull())

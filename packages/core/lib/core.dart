@@ -17,6 +17,7 @@ export 'src/finance/category.dart';
 export 'src/finance/repositories.dart';
 export 'src/finance/transaction.dart';
 export 'src/finance/transfer.dart';
+export 'src/money/amount_expression.dart';
 export 'src/money/currency.dart';
 export 'src/money/exchange_rate.dart';
 export 'src/money/money.dart';

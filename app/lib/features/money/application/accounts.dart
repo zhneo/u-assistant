@@ -1,7 +1,5 @@
 import 'package:core/core.dart';
 
-import 'finance_setup.dart';
-
 /// Данные счёта из формы (SCR-35, FR-FIN-01).
 final class AccountInput {
   final String name;
@@ -53,7 +51,7 @@ final class SaveAccount {
           budgetMode: input.budgetMode,
           hidden: input.hidden,
           colorIndex: input.colorIndex,
-          icon: accountIconFor(input.type),
+          icon: input.type.defaultIcon,
           sortOrder: all.isEmpty
               ? 0
               : all.map((a) => a.sortOrder).reduce((a, b) => a > b ? a : b) + 1,
@@ -65,19 +63,24 @@ final class SaveAccount {
             await _accounts.hasTransactions(old.id)) {
           return const Err(ConflictFailure(ConflictReason.currencyLocked));
         }
-        // Смена режима бюджета влияет на report_effect переводов (§5.2) —
-        // пересчёт появится вместе с редактированием режима в SCR-35.
+        // Смена режима бюджета меняет report_effect уже записанных переводов (§5.2),
+        // а для перевода-расхода нужна категория, которой у старых записей нет.
+        // Поэтому в M1 режим меняется, только пока у счёта нет операций (D-064).
+        if (old.budgetMode != input.budgetMode &&
+            await _accounts.hasTransactions(old.id)) {
+          return const Err(ConflictFailure(ConflictReason.hasDependents));
+        }
         account = Account(
           id: old.id,
           name: name.value,
           type: input.type,
           currency: input.currency,
           openingBalance: opening,
-          budgetMode: old.budgetMode,
+          budgetMode: input.budgetMode,
           hidden: input.hidden,
           archivedAt: old.archivedAt,
           colorIndex: input.colorIndex,
-          icon: accountIconFor(input.type),
+          icon: input.type.defaultIcon,
           sortOrder: old.sortOrder,
         );
       }

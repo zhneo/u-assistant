@@ -19,17 +19,249 @@
   "comingInMilestone": "Появится в вехе {milestone}",
   "@comingInMilestone": {
     "placeholders": {
-      "milestone": { "type": "String" }
+      "milestone": {
+        "type": "String"
+      }
     }
   },
   "todayEmptyTitle": "На сегодня ничего не запланировано",
   "todayEmptyMessage": "Задачи, привычки и платежи появятся здесь.",
   "tasksEmptyTitle": "Здесь будут задачи",
   "tasksEmptyMessage": "Задачи без даты и проекта попадают во «Входящие».",
-  "moneyEmptyTitle": "Создайте первый счёт",
-  "moneyEmptyMessage": "Например, «Наличные». После этого можно записывать расходы.",
   "notesEmptyTitle": "Здесь будут заметки",
   "notesEmptyMessage": "Например, конспект встречи или список покупок.",
   "startupErrorTitle": "Не удалось открыть данные",
-  "startupErrorMessage": "Ваши резервные копии целы. Восстановление появится в вехе M3."
+  "startupErrorMessage": "Ваши резервные копии целы. Восстановление появится в вехе M3.",
+  "cancel": "Отмена",
+  "done": "Готово",
+  "next": "Далее",
+  "save": "Сохранить",
+  "delete": "Удалить",
+  "edit": "Изменить",
+  "undo": "Отменить",
+  "searchHint": "Поиск",
+  "today": "Сегодня",
+  "yesterday": "Вчера",
+  "onboardingCurrencyTitle": "Основная валюта",
+  "onboardingCurrencyHint": "В ней считаются общие итоги. Можно изменить позже.",
+  "onboardingRestore": "Восстановить из бэкапа",
+  "onboardingRestoreLater": "Восстановление из бэкапа появится в вехе M3",
+  "onboardingCashTitle": "Сколько у вас наличных?",
+  "onboardingCashHint": "Создадим счёт «Наличные». Сумма может быть нулевой.",
+  "onboardingCreateAccount": "Создать счёт",
+  "onboardingSkip": "Пропустить",
+  "onboardingPrivacyTitle": "Данные хранятся только на этом телефоне",
+  "onboardingPrivacyNoSignup": "Без регистрации",
+  "onboardingPrivacyBackup": "Делайте резервную копию — файл можно сохранить куда угодно",
+  "onboardingPrivacyLoss": "Если телефон потеряется, данные восстановятся только из копии",
+  "onboardingStart": "Начать",
+  "onboardingStepOf": "Шаг {step} из {total}",
+  "@onboardingStepOf": {
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "cashAccountName": "Наличные",
+  "expense": "Расход",
+  "income": "Доход",
+  "transfer": "Перевод",
+  "adjustment": "Корректировка баланса",
+  "newExpense": "Новый расход",
+  "newIncome": "Новый доход",
+  "newTransfer": "Новый перевод",
+  "editOperation": "Изменить операцию",
+  "fieldCategory": "Категория",
+  "fieldAccount": "Счёт",
+  "fieldDate": "Дата",
+  "fieldNote": "Комментарий",
+  "fieldNoteHint": "Необязательно",
+  "fieldFrom": "Откуда",
+  "fieldTo": "Куда",
+  "fieldCredited": "Зачислено",
+  "fieldRefund": "Это возврат",
+  "allCategories": "Все",
+  "swapAccounts": "Поменять счета местами",
+  "keypadBackspace": "Стереть",
+  "keypadCalculator": "Калькулятор",
+  "keypadPlus": "плюс",
+  "keypadMinus": "минус",
+  "keypadTimes": "умножить",
+  "keypadDivide": "разделить",
+  "keypadComma": "запятая",
+  "amountTotal": "= {amount}",
+  "@amountTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rateLine": "Курс: 1 {from} = {rate} {to}",
+  "@rateLine": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "noRateWarning": "Нет курса {currency} — в общих итогах не учтётся",
+  "@noRateWarning": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "transferAsExpense": "Такой перевод учитывается как расход",
+  "transferAsIncome": "Такой перевод учитывается как доход",
+  "chooseDifferentAccounts": "Выберите разные счета",
+  "createCashAccount": "Создать «Наличные»",
+  "discardTitle": "Отменить ввод?",
+  "discardMessage": "Введённая сумма не сохранится.",
+  "discardConfirm": "Не сохранять",
+  "keepEditing": "Продолжить",
+  "saveFailed": "Не удалось сохранить. Данные в форме, попробуйте ещё раз.",
+  "savedExpense": "Расход {amount} сохранён",
+  "@savedExpense": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "savedIncome": "Доход {amount} сохранён",
+  "@savedIncome": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "savedTransfer": "Перевод {amount} сохранён",
+  "@savedTransfer": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "deletedOperation": "Операция удалена",
+  "chooseCategory": "Категория",
+  "chooseAccount": "Счёт",
+  "moneyOverview": "Обзор",
+  "moneyOperations": "Операции",
+  "totalBalance": "Общий баланс",
+  "totalByRate": "по курсу {currency} {rate} от {date}",
+  "@totalByRate": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "totalIncomplete": "неполный: нет курса {currencies}",
+  "@totalIncomplete": {
+    "placeholders": {
+      "currencies": {
+        "type": "String"
+      }
+    }
+  },
+  "expensesIn": "Расходы в {month}",
+  "@expensesIn": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeIn": "Доходы в {month}",
+  "@incomeIn": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "accounts": "Счета",
+  "addAccount": "Добавить счёт",
+  "recentOperations": "Последние операции",
+  "allOperations": "Все операции",
+  "operationsEmptyTitle": "Здесь будут операции",
+  "operationsEmptyMessage": "Нажмите «Добавить», чтобы записать первый расход.",
+  "operationsCount": "{count, plural, one{{count} операция} few{{count} операции} many{{count} операций} other{{count} операции}}",
+  "@operationsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "accountsTitle": "Счета",
+  "accountNew": "Новый счёт",
+  "accountEdit": "Счёт",
+  "accountName": "Название",
+  "accountNameHint": "Например, Kaspi Gold",
+  "accountType": "Тип",
+  "accountCurrency": "Валюта",
+  "accountOpening": "Начальный баланс",
+  "accountOnBudget": "Учитывать в бюджете",
+  "accountOnBudgetHint": "Выключите для кредитов и вкладов: переводы на такой счёт станут расходом",
+  "accountHidden": "Скрыть из общего баланса",
+  "accountCurrencyLocked": "Валюту нельзя изменить: у счёта есть операции",
+  "accountTransfer": "Перевести",
+  "accountAdjust": "Изменить баланс",
+  "accountAdjustTitle": "Фактический остаток",
+  "accountAdjustHint": "Разница запишется корректировкой — не доходом и не расходом",
+  "accountArchive": "В архив",
+  "accountUnarchive": "Вернуть из архива",
+  "accountArchived": "В архиве",
+  "accountCreditHint": "долг по кредиту",
+  "accountTypeCash": "Наличные",
+  "accountTypeCard": "Карта",
+  "accountTypeBank": "Банковский счёт",
+  "accountTypeDeposit": "Вклад",
+  "accountTypeCredit": "Кредит",
+  "accountTypeOther": "Другое",
+  "accountGroupCash": "Наличные",
+  "accountGroupCards": "Карты",
+  "accountGroupBank": "Счета и вклады",
+  "accountGroupCredit": "Кредиты",
+  "accountGroupOther": "Другое",
+  "accountArchivedSection": "Архив",
+  "amountInvalid": "Проверьте сумму",
+  "nameRequired": "Введите название",
+  "nameTooLong": "Слишком длинное название",
+  "operationTitle": "Операция",
+  "operationDeleteTitle": "Удалить операцию?",
+  "operationDeleteTransferTitle": "Удалить перевод?",
+  "operationDeleteMessage": "Операция попадёт в корзину.",
+  "debited": "Списано",
+  "credited": "Зачислено",
+  "rate": "Курс",
+  "archivedAccount": "Счёт удалён",
+  "moneyEmptyTitle": "Создайте первый счёт",
+  "moneyEmptyMessage": "Например, «Наличные». После этого можно записывать расходы.",
+  "categoryRequired": "Выберите категорию",
+  "creditRequired": "Введите сумму зачисления",
+  "budgetModeLocked": "Режим можно сменить, пока у счёта нет операций",
+  "notFound": "Запись не найдена — возможно, её уже удалили",
+  "rateInvalid": "Проверьте курс"
 }

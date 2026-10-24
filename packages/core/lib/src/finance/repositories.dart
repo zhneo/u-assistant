@@ -13,6 +13,9 @@ import 'transaction.dart';
 abstract interface class AccountRepository {
   /// Счета не в архиве, по `sort_order`, с текущим балансом (§6.2).
   Stream<List<AccountWithBalance>> watchActive();
+
+  /// Все неудалённые счета, включая архивные, — для названий в старых операциях.
+  Stream<List<Account>> watchAll();
   Future<List<Account>> all();
   Future<Account?> get(EntityId id);
 

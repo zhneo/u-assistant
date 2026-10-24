@@ -20,6 +20,16 @@ enum AccountType {
     (e) => e.dbValue == v,
     orElse: () => throw ArgumentError.value(v, 'AccountType'),
   );
+
+  /// Ключ иконки счёта по умолчанию (набор иконок — в приложении).
+  String get defaultIcon => switch (this) {
+    cash => 'cash',
+    card => 'card',
+    bank => 'bank',
+    deposit => 'savings',
+    credit => 'credit',
+    other => 'wallet',
+  };
 }
 
 /// «В бюджете» или «только отслеживать» (R1, REQUIREMENTS §6.4).

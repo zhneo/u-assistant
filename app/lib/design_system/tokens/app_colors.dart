@@ -24,6 +24,14 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color pressed;
   final Color barBackground;
 
+  /// Своя цифровая клавиатура ввода суммы (UI_SPECIFICATION SH-02, DESIGN_SYSTEM §8.11).
+  final Color keypadBackground;
+  final Color keypadKey;
+
+  /// Всплывающее сообщение «Отменить» — тёмная капсула в обеих темах (DESIGN_SYSTEM §8.14).
+  final Color toastBackground;
+  final Color onToast;
+
   /// Цвета категорий и проектов в порядке палитры (DESIGN_SYSTEM §2.2):
   /// оранжевый, фиолетовый, розовый, синий, жёлтый, бирюзовый; индекс 6 — «Другое».
   final List<Color> category;
@@ -45,6 +53,10 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.warning,
     required this.pressed,
     required this.barBackground,
+    required this.keypadBackground,
+    required this.keypadKey,
+    required this.toastBackground,
+    required this.onToast,
     required this.category,
   });
 
@@ -65,6 +77,10 @@ class AppColors extends ThemeExtension<AppColors> {
     warning: Color(0xFF9A6200),
     pressed: Color(0xFFE5E5EA),
     barBackground: Color(0xF0F9F9F9),
+    keypadBackground: Color(0xFFD1D3D9),
+    keypadKey: Color(0xFFFFFFFF),
+    toastBackground: Color(0xFF1C1C1E),
+    onToast: Color(0xFFFFFFFF),
     category: [
       Color(0xFFF07B1D),
       Color(0xFF9B51E0),
@@ -93,6 +109,10 @@ class AppColors extends ThemeExtension<AppColors> {
     warning: Color(0xFFFFB340),
     pressed: Color(0xFF2C2C2E),
     barBackground: Color(0xF0161618),
+    keypadBackground: Color(0xFF2B2B2D),
+    keypadKey: Color(0xFF5A5A5E),
+    toastBackground: Color(0xFF3A3A3C),
+    onToast: Color(0xFFFFFFFF),
     category: [
       Color(0xFFD9690F),
       Color(0xFF9B5DE5),
